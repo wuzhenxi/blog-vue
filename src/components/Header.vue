@@ -1,6 +1,6 @@
 <template>
   <div class="m-content">
-    <h3>欢迎来到JesseWu的博客</h3>
+    <h3>welcome to JesseWu's blog</h3>
     <div class="block">
       <el-avatar :size="50" :src="user.avatar"></el-avatar>
       <div>{{ user.username }}</div>
@@ -26,7 +26,7 @@
     data() {
       return {
         user: {
-          username: '',
+          username: 'guess',
           avatar: require('@/assets/person.png')
         },
         hasLogin: false
@@ -35,25 +35,21 @@
     methods: {
       logout() {
         const _this = this
-        _this.$axios.get("/logout", {
-          headers: {
-            "Authorization": localStorage.getItem("token")
-          }
-        }).then(res => {
+        _this.$axios.get("/logout").then(res => {
           _this.$store.commit("REMOVE_INFO")
           _this.$router.push("/login")
+          localStorage.removeItem("blog_token")
 
         })
       }
     },
     created() {
-      if(this.$store.getters.getUser.username) {
+      if(this.$store.getters.getUser) {
         this.user.username = this.$store.getters.getUser.username
         // this.user.avatar = this.$store.getters.getUser.avatar
         this.user.avatar = require('@/assets/person-login.gif');
         this.hasLogin = true
       }
-
     }
   }
 </script>

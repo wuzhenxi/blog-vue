@@ -5,6 +5,19 @@
     <div class="m-content">
 
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
+        <el-form-item label="仅自己可见" prop="status">
+          <el-switch
+            v-model="ruleForm.status"
+            active-color="#ff4949"
+            inactive-color="#13ce66"
+            active-value=0
+            inactive-value=1
+            active-text="否"
+            inactive-text="是">
+          </el-switch>
+        </el-form-item>
+
         <el-form-item label="标题" prop="title">
           <el-input v-model="ruleForm.title"></el-input>
         </el-form-item>
@@ -23,30 +36,44 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">创建</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
 
     </div>
 
-
+    <el-tooltip placement="top" content="top">
+      <back-to-top :custom-style="myBackToTopStyle" :visibility-height="300" :back-position="50" transition-name="fade" />
+    </el-tooltip>
 
   </div>
 </template>
 
 <script>
   import Header from "../components/Header";
+  import BackToTop from '@/components/BackToTop';
+  import {mavonEditor} from 'mavon-editor';
   export default {
     name: "BlogEdit.vue",
-    components: {Header},
+    components: {Header, mavonEditor, BackToTop},
     data() {
       return {
+        myBackToTopStyle: {
+          right: '50px',
+          bottom: '50px',
+          width: '40px',
+          height: '40px',
+          'border-radius': '4px',
+          'line-height': '45px', // 请保持与高度一致以垂直居中 Please keep consistent with height to center vertically
+          background: '#e7eaf1'// 按钮的背景颜色 The background color of the button
+        },
         ruleForm: {
           id: '',
           title: '',
           description: '',
-          content: ''
+          content: '',
+          status: '1'
         },
         rules: {
           title: [
@@ -57,45 +84,33 @@
             { required: true, message: '请输入摘要', trigger: 'blur' }
           ],
           content: [
-            { trequired: true, message: '请输入内容', trigger: 'blur' }
+            { required: true, message: '请输入内容', trigger: 'blur' }
           ]
         }
       };
     },
     methods: {
       handleEditorImgAdd (pos, $file) {
-        debugger;
         let formdata = new FormData()
         formdata.append('file', $file)
-        this.imgFile[pos] = $file
-        let instance = this.$axios.create({
-            withCredentials: true,
-            headers: {
-                Authorization: token   // 我上传的时候请求头需要带上token 验证，不需要的删除就好
-            }
-        })
-        instance.post('/api/upload/fileds', formdata).then(res => {
+        let instance = this.$axios.create()
+        instance.post('/blog/upload', formdata).then(res => {
             if (res.data.code === 200) {
-                this.$Message.success('上传成功')
-                let url = res.data.data
+                // {"code":200,"msg":"操作成功","data":{"systemFileName":"/Users/wuzhenxi/IdeaProjects/arthas-monitor/c090dfe5-9d34-402e-9a3d-c17a21b7db17_201904192123.jpg","originalFilename":"201904192123.jpg"}}
+                this.$notify({
+                  title: 'success',
+                  message: '上传成功',
+                  type: 'success'
+                });
+                let imgFile = res.data.data.systemFileName;
                 let name = $file.name
-                if (name.includes('-')) {
-                    name = name.replace(/-/g, '')
-                }
-                let content = this.form.content
-                // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)  这里是必须要有的
-                if (content.includes(name)) {
-                    let oStr = `(${pos})`
-                    let nStr = `(${url})`
-                    let index = content.indexOf(oStr)
-                    let str = content.replace(oStr, '')
-                    let insertStr = (soure, start, newStr) => {
-                        return soure.slice(0, start) + newStr + soure.slice(start)
-                    }
-                    this.form.content = insertStr(str, index, nStr)
-                }
+                this.$refs.md.$img2Url(pos, imgFile);
             } else {
-                this.$Message.error(res.data.msg)
+                this.$notify({
+                  title: '警告',
+                  message: res.data.msg,
+                  type: 'warning'
+                });
             }
         })
       },
@@ -105,21 +120,16 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-
-            const _this = this
-            this.$axios.post('/blog/edit', this.ruleForm, {
-              headers: {
-                "Authorization": localStorage.getItem("token")
+            const _this = this;
+            this.$axios.post('/blog/edit', this.ruleForm).then(res => {
+              if(res.data.data) {
+                _this.$notify({
+                  title: 'success',
+                  message: '操作成功',
+                  type: 'success'
+                });
               }
-            }).then(res => {
-              console.log(res)
-              _this.$alert('操作成功', '提示', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  _this.$router.push("/blogs")
-                }
-              });
-
+              _this.$router.push("/blogs");
             })
 
           } else {

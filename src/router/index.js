@@ -4,6 +4,8 @@ import Login from '../views/Login.vue'
 import Blogs from '../views/Blogs.vue'
 import BlogEdit from '../views/BlogEdit.vue'
 import BlogDetail from '../views/BlogDetail.vue'
+import NotFound from '../views/404.vue'
+import Page401 from '../views/401.vue'
 
 Vue.use(VueRouter)
 
@@ -24,9 +26,14 @@ const routes = [
     component: Login
   },
   {
+    path: '/401',
+    name: 'Page401',
+    component: Page401
+  },
+  {
     path: '/404',
-    name: '404',
-    component: 404
+    name: 'NotFound',
+    component: NotFound
   },
   {
     path: '/blog/add',

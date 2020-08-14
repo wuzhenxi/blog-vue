@@ -3,7 +3,10 @@
 
     <el-container>
       <el-header>
-        <img class="mlogo" src="https://www.markerhub.com/dist/images/logo/markerhub-logo.png" alt="">
+        <h1 class="mlogo">
+          系统登录
+        </h1>
+        <!-- <img class="mlogo" src="https://www.markerhub.com/dist/images/logo/markerhub-logo.png" alt=""> -->
       </el-header>
       <el-main>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -13,7 +16,6 @@
           <el-form-item label="密码" prop="password">
             <el-input type="password" v-model="ruleForm.password"></el-input>
           </el-form-item>
-
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -52,7 +54,6 @@
           if (valid) {
             const _this = this
             this.$axios.post('/login', this.ruleForm).then(res => {
-
               console.log(res.data)
               const jwt = res.headers['authorization']
               const userInfo = res.data.data
@@ -97,7 +98,7 @@
   }
 
   .el-main {
-    /*background-color: #E9EEF3;*/
+    background-color: #E9EEF3;
     color: #333;
     text-align: center;
     line-height: 160px;
