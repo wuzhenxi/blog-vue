@@ -93,10 +93,8 @@
       handleEditorImgAdd (pos, $file) {
         let formdata = new FormData()
         formdata.append('file', $file)
-        let instance = this.$axios.create()
-        instance.post('/blog/upload', formdata).then(res => {
+        let instance = this.$axios.post('/blog/upload', formdata).then(res => {
             if (res.data.code === 200) {
-                // {"code":200,"msg":"操作成功","data":{"systemFileName":"/Users/wuzhenxi/IdeaProjects/arthas-monitor/c090dfe5-9d34-402e-9a3d-c17a21b7db17_201904192123.jpg","originalFilename":"201904192123.jpg"}}
                 this.$notify({
                   title: 'success',
                   message: '上传成功',
