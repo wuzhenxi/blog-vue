@@ -7,15 +7,17 @@
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
         <el-form-item label="仅自己可见" prop="status">
-          <el-switch
-            v-model="ruleForm.status"
-            active-color="#ff4949"
-            inactive-color="#13ce66"
-            active-value=0
-            inactive-value=1
-            active-text="否"
-            inactive-text="是">
-          </el-switch>
+          <div style="text-align: left;">
+            <el-switch
+              v-model="ruleForm.status"
+              active-color="#ff4949"
+              inactive-color="#13ce66"
+              active-value=0
+              inactive-value=1
+              active-text="否"
+              inactive-text="是">
+            </el-switch>
+          </div>
         </el-form-item>
 
         <el-form-item label="标题" prop="title">
@@ -102,6 +104,7 @@
                 });
                 let imgFile = res.data.data.systemFileName;
                 let name = $file.name
+                console.log(imgFile)
                 this.$refs.md.$img2Url(pos, imgFile);
             } else {
                 this.$notify({
