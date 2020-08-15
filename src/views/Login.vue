@@ -23,14 +23,18 @@
         </el-form>
 
       </el-main>
+      <Footer></Footer>
     </el-container>
 
   </div>
 </template>
 
 <script>
+  import Footer from "../components/Footer";
+
   export default {
     name: "Login",
+    components: {Footer},
     data() {
       return {
         ruleForm: {

@@ -33,16 +33,18 @@
       <back-to-top :custom-style="myBackToTopStyle" :visibility-height="300" :back-position="50" transition-name="fade" />
     </el-tooltip>
 
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
   import Header from "../components/Header";
+  import Footer from "../components/Footer";
   import BackToTop from '@/components/BackToTop';
 
   export default {
     name: "Blogs.vue",
-    components: {Header, BackToTop},
+    components: {Header, Footer, BackToTop},
     data() {
       return {
         myBackToTopStyle: {

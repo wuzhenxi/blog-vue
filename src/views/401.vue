@@ -9,7 +9,12 @@
           Oops!
         </h1>
         <h2>你没有权限去该页面</h2>
-        <h6>如有不满请联系你领导</h6>
+        <h6>
+          如有不满请联系
+          <el-tooltip class="item" effect="dark" content="email: wyyxwzx@163.com" placement="top">
+            <el-button type="text">JesseWu</el-button>
+          </el-tooltip>
+        </h6>
         <ul class="list-unstyled">
           <li>或者你可以去:</li>
           <li class="link-type">
@@ -30,14 +35,18 @@
     <el-dialog :visible.sync="dialogVisible" title="随便看">
       <img src="@/assets/gif/007ef517-bafd-4066-aae4-6883632d9646.gif" class="pan-img">
     </el-dialog>
+    <Footer></Footer>
   </div>
+
 </template>
 
 <script>
 import errGif from '@/assets/401_images/401.gif'
+import Footer from "../components/Footer";
 
 export default {
   name: 'Page401',
+  components: {Footer},
   data() {
     return {
       errGif: errGif + '?' + +new Date(),

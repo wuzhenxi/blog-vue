@@ -49,16 +49,18 @@
       <back-to-top :custom-style="myBackToTopStyle" :visibility-height="300" :back-position="50" transition-name="fade" />
     </el-tooltip>
 
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
   import Header from "../components/Header";
+  import Footer from "../components/Footer";
   import BackToTop from '@/components/BackToTop';
   import {mavonEditor} from 'mavon-editor';
   export default {
     name: "BlogEdit.vue",
-    components: {Header, mavonEditor, BackToTop},
+    components: {Header, Footer, mavonEditor, BackToTop},
     data() {
       return {
         myBackToTopStyle: {
