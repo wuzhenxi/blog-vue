@@ -8,7 +8,7 @@ axios.defaults.baseURL = "https://www.wuzhenxicloud.com:8081"
 
 // 前置拦截
 axios.interceptors.request.use(config => {
-  let token = localStorage.getItem("blog_token");
+  let token = sessionStorage.getItem("blog_token");
   if(token && ("undefined" != token)) {
     config.headers = {
       'Authorization': token

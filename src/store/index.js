@@ -12,7 +12,7 @@ export default new Vuex.Store({
     // set
     SET_TOKEN: (state, token) => {
       state.token = token
-      localStorage.setItem("blog_token", token)
+      sessionStorage.setItem("blog_token", token)
     },
     SET_USERINFO: (state, userInfo) => {
       state.userInfo = userInfo
@@ -21,7 +21,7 @@ export default new Vuex.Store({
     REMOVE_INFO: (state) => {
       state.token = ''
       state.userInfo = {}
-      localStorage.setItem("blog_token", '')
+      sessionStorage.setItem("blog_token", '')
       sessionStorage.setItem("blog_user", JSON.stringify(''))
     }
 

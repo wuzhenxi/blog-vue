@@ -38,7 +38,7 @@
         _this.$axios.get("/logout").then(res => {
           _this.$store.commit("REMOVE_INFO")
           _this.$router.push("/login")
-          localStorage.removeItem("blog_token")
+          sessionStorage.removeItem("blog_token")
 
         })
       }
