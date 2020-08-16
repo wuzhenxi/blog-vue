@@ -104,7 +104,7 @@
                   message: '上传成功',
                   type: 'success'
                 });
-                let imgFile = res.data.data.systemFileName;
+                let imgFile = res.data.data.fileUrl;
                 let name = $file.name
                 console.log(imgFile)
                 this.$refs.md.$img2Url(pos, imgFile);
