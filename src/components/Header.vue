@@ -26,7 +26,7 @@
     data() {
       return {
         user: {
-          username: 'guess',
+          username: 'guest',
           avatar: require('@/assets/person.png')
         },
         hasLogin: false
