@@ -1,10 +1,8 @@
 <template>
-  <el-footer>
-    <div class="m-content">
+  <div class="m-content">
     <h6>Copyright © <a style="color:#20a0ff" href="https://github.com/wuzhenxi520?tab=stars" target="_blank">JesseWu</a></h6>
     <h6>鄂ICP备20014880号</h6>
   </div>
-  </el-footer>
 </template>
 
 <script>

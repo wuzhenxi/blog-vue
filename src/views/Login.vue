@@ -66,8 +66,12 @@
               _this.$store.commit("SET_TOKEN", jwt)
               _this.$store.commit("SET_USERINFO", userInfo)
 
-              // 获取
-              console.log(_this.$store.getters.getUser)
+
+              _this.$notify({
+                title: '登录成功',
+                message: '欢迎' + userInfo.username + '回家',
+                type: 'success'
+              });
 
               _this.$router.push("/blogs")
             })

@@ -52,6 +52,18 @@ export function validEmail(email) {
 }
 
 /**
+ * @param {number} num
+ * @returns {Boolean}
+ */
+export function isNumber(num) {
+  debugger;
+  if (typeof num === 'number' || num instanceof Number) {
+    return true
+  }
+  return false
+}
+
+/**
  * @param {string} str
  * @returns {Boolean}
  */

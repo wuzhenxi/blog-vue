@@ -106,7 +106,6 @@
                 });
                 let imgFile = res.data.data.fileUrl;
                 let name = $file.name
-                console.log(imgFile)
                 this.$refs.md.$img2Url(pos, imgFile);
             } else {
                 this.$notify({

@@ -6,6 +6,7 @@ import BlogEdit from '../views/BlogEdit.vue'
 import BlogDetail from '../views/BlogDetail.vue'
 import NotFound from '../views/404.vue'
 import Page401 from '../views/401.vue'
+import LogQuery from '../views/log/logView.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,14 @@ const routes = [
     path: '/blog/:blogId/edit',
     name: 'BlogEdit',
     component: BlogEdit,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/log/query',
+    name: 'LogQuery',
+    component: LogQuery,
     meta: {
       requireAuth: true
     }
