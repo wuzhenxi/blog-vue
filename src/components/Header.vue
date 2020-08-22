@@ -13,8 +13,8 @@
           <el-dropdown-item v-show="hasLogin">
             <span><el-link type="success" href="/blog/add">发表博客</el-link></span>
           </el-dropdown-item>
-          <el-dropdown-item v-show="isAdmin">
-            <span><el-link type="logView" href="/log/query">系统日志</el-link></span>
+          <el-dropdown-item v-show="logView">
+            <span><el-link type="info" href="/log/query">系统日志</el-link></span>
           </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
             <span v-show="!hasLogin"><el-link type="primary" href="/login">登录</el-link></span>

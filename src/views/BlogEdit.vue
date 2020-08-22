@@ -5,17 +5,29 @@
     <div class="m-content">
 
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-
+        <el-form-item v-show="false" label="所属者" prop="userId">
+          <el-input v-model="ruleForm.userId"></el-input>
+        </el-form-item>
         <el-form-item label="仅自己可见" prop="status">
           <div style="text-align: left;">
             <el-switch
               v-model="ruleForm.status"
-              active-color="#ff4949"
-              inactive-color="#13ce66"
-              active-value=0
-              inactive-value=1
-              active-text="否"
-              inactive-text="是">
+              active-value="1"
+              inactive-value="0"
+              active-text="是"
+              inactive-text="否">
+            </el-switch>
+          </div>
+        </el-form-item>
+
+        <el-form-item label="个人置顶" prop="isTop">
+          <div style="text-align: left;">
+            <el-switch
+              v-model="ruleForm.isTop"
+              active-value="1"
+              inactive-value="0"
+              active-text="是"
+              inactive-text="否">
             </el-switch>
           </div>
         </el-form-item>
@@ -35,6 +47,23 @@
             @imgAdd="handleEditorImgAdd"
             @imgDel="handleEditorImgDel"
           />
+        </el-form-item>
+
+        <el-form-item label="附件" prop="attachment">
+          <el-upload
+            class="upload-file"
+            multiple
+            :v-model="ruleForm.attachment"
+            :before-remove="beforeRemove"
+            :on-remove="removeFile"
+            :limit="10"
+            :on-exceed="handleExceed"
+            :action="upload_url"
+            :http-request="uploadAttachment"
+            :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能选10个文件，且不超过100MB</div>
+          </el-upload>
         </el-form-item>
 
         <el-form-item>
@@ -77,7 +106,10 @@
           title: '',
           description: '',
           content: '',
-          status: '1'
+          userId: this.$store.getters.getUser.id,
+          isTop: '0',
+          status: '1',
+          attachment: ''
         },
         rules: {
           title: [
@@ -90,34 +122,109 @@
           content: [
             { required: true, message: '请输入内容', trigger: 'blur' }
           ]
-        }
+        },
+        upload_url: '/blog/upload',
+        fileList: []
       };
     },
     methods: {
       handleEditorImgAdd (pos, $file) {
         let formdata = new FormData()
         formdata.append('file', $file)
-        let instance = this.$axios.post('/blog/upload', formdata).then(res => {
-            if (res.data.code === 200) {
-                this.$notify({
-                  title: 'success',
-                  message: '上传成功',
-                  type: 'success'
-                });
-                let imgFile = res.data.data.fileUrl;
-                let name = $file.name
-                this.$refs.md.$img2Url(pos, imgFile);
-            } else {
-                this.$notify({
-                  title: '警告',
-                  message: res.data.msg,
-                  type: 'warning'
-                });
-            }
+        this.$axios.post('/blog/upload', formdata).then(res => {
+          if (res.data.code === 200) {
+              this.$notify({
+                title: 'success',
+                message: '上传成功',
+                type: 'success'
+              });
+              let imgFile = res.data.data.fileUrl;
+              let name = $file.name
+              this.$refs.md.$img2Url(pos, imgFile);
+          } else {
+              this.$notify({
+                title: '警告',
+                message: res.data.msg,
+                type: 'warning'
+              });
+          }
         })
       },
       handleEditorImgDel (pos) {
           delete this.imgFile[pos]
+      },
+      handleExceed(files, fileList) {
+        this.$notify.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove(file, fileList) {
+        if(this.ruleForm.userId === this.$store.getters.getUser.id) {
+          return this.$confirm(`确定移除 ${ file.name }？`, '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+        } else {
+          this.$notify({
+            title: '警告',
+            message: '该博文不属于您，无权删除博文相关内容',
+            type: 'warning'
+          });
+        }
+      },
+      removeFile(file,fileList) {
+        const _this = this
+        let userFileDTO = {
+          userId: this.ruleForm.userId,
+          fileUrl: file.url,
+          fileName: file.name
+        }
+        this.$axios.post('/file/delete/', userFileDTO).then(res => {
+          if (res.data.code === 200) {
+            if(res.data.data) {
+              this.$notify({
+                title: 'success',
+                message: `成功删除 ${ file.name }`,
+                type: 'success'
+              });
+            } else {
+              this.$notify({
+                title: '警告',
+                message: '文件不存在或已被删除',
+                type: 'warning'
+              });
+            }
+            _this.fileList.splice(_this.fileList.indexOf(file),1)
+          } 
+        })
+      },
+      uploadAttachment(params) {
+        debugger
+        const _this = this
+        let formdata = new FormData()
+        formdata.append('file', params.file)
+        // 本例子主要要在请求时添加特定属性，所以要用自己方法覆盖默认的action
+        this.$axios.post(_this.upload_url, formdata).then(res => {
+          if (res.data.code === 200) {
+              this.$notify({
+                title: 'success',
+                message: `成功上传 ${ params.file.name }`,
+                type: 'success'
+              });
+              let resUrl = res.data.data.fileUrl;
+              let fileInfo = {
+                name: params.file.name,
+                url: resUrl
+              };
+              this.fileList.push(fileInfo);
+              this.ruleForm.attachment = JSON.stringify(this.fileList);
+          } else {
+              this.$notify({
+                title: '警告',
+                message: res.data.msg,
+                type: 'warning'
+              });
+          }
+        })
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -146,15 +253,17 @@
     },
     created() {
       const blogId = this.$route.params.blogId
-      console.log(blogId)
       const _this = this
       if(blogId) {
         this.$axios.get('/blog/' + blogId).then(res => {
           const blog = res.data.data
           _this.ruleForm.id = blog.id
+          _this.ruleForm.userId = blog.userId
           _this.ruleForm.title = blog.title
           _this.ruleForm.description = blog.description
           _this.ruleForm.content = blog.content
+          _this.ruleForm.attachment = JSON.parse(blog.attachment)
+          _this.fileList = JSON.parse(blog.attachment)
         })
       }
 
@@ -165,5 +274,10 @@
 <style scoped>
   .m-content {
     text-align: center;
+  }
+
+  .upload-file {
+    text-align: left;
+    width: 45%;
   }
 </style>

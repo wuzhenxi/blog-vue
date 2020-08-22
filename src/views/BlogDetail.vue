@@ -25,6 +25,13 @@
       <el-divider></el-divider>
       <div class="markdown-body" v-html="blog.content"></div>
 
+      <div class="mattachment">
+        <i class="el-icon-connection">附件</i>
+        <li v-for="blogAttachment in blog.attachment" :key="blogAttachment.uid">
+            <a :href="blogAttachment.url" target="_blank">{{blogAttachment.name}}</a>
+        </li>
+      </div>
+
     </div>
 
     <el-tooltip placement="top" content="top">
@@ -59,7 +66,9 @@
         blog: {
           id: "",
           title: "",
-          content: ""
+          content: "",
+          userId: "",
+          attachment: ""
         },
         ownBlog: false,
         visible: false
@@ -73,6 +82,8 @@
         const blog = res.data.data
         _this.blog.id = blog.id
         _this.blog.title = blog.title
+        _this.blog.attachment = JSON.parse(blog.attachment)
+        _this.blog.userId = blog.userId
 
         var MardownIt = require("markdown-it")
         var md = new MardownIt()
@@ -117,6 +128,10 @@
 
   .delete-popover {
     margin-left: 10px;
+  }
+
+  .mattachment {
+    margin-top: 25px;
   }
 
 </style>

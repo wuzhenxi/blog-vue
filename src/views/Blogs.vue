@@ -61,7 +61,7 @@
         blogs: {},
         currentPage: 1,
         total: 0,
-        pageSize: 5
+        pageSize: 10
       }
     },
     methods: {
