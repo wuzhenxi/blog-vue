@@ -25,7 +25,7 @@
       <el-divider></el-divider>
       <div class="markdown-body" v-html="blog.content"></div>
 
-      <div class="mattachment">
+      <div class="mattachment" v-if="blog.attachment">
         <i class="el-icon-connection">附件</i>
         <li v-for="blogAttachment in blog.attachment" :key="blogAttachment.uid">
             <a :href="blogAttachment.url" target="_blank">{{blogAttachment.name}}</a>

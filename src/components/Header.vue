@@ -7,8 +7,11 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>
+            <span><el-link type="blue" href="/">主页</el-link></span>
+          </el-dropdown-item>
           <el-dropdown-item v-show="hasLogin">
-            <span><el-link type="blue" href="/user/info">个人中心</el-link></span>
+            <span><el-link type="warning" href="/user/info">个人中心</el-link></span>
           </el-dropdown-item>
           <el-dropdown-item v-show="hasLogin">
             <span><el-link type="success" href="/blog/add">发表博客</el-link></span>
