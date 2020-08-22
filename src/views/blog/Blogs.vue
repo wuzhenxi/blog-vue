@@ -8,7 +8,7 @@
         <el-timeline-item :timestamp="blog.created" placement="top" v-for="blog in blogs" :key="blog.id">
           <el-card>
             <h4>
-              <router-link :to="{name: 'BlogDetail', params: {blogId: blog.id}}">
+              <router-link class="router-link-active" :to="{name: 'BlogDetail', params: {blogId: blog.id}}">
                 {{blog.title}}
               </router-link>
             </h4>
@@ -40,8 +40,8 @@
 </template>
 
 <script>
-  import Header from "../components/Header";
-  import Footer from "../components/Footer";
+  import Header from "../../components/Header";
+  import Footer from "../../components/Footer";
   import BackToTop from '@/components/BackToTop';
 
   export default {
@@ -95,6 +95,10 @@
   .mpage {
     margin: 0 auto;
     text-align: center;
+  }
+
+  .router-link-active {
+    text-decoration: none;
   }
 
 </style>

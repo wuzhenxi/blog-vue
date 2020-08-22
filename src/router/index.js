@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
-import Blogs from '../views/Blogs.vue'
-import BlogEdit from '../views/BlogEdit.vue'
-import BlogDetail from '../views/BlogDetail.vue'
-import NotFound from '../views/404.vue'
-import Page401 from '../views/401.vue'
+import Blogs from '../views/blog/Blogs.vue'
+import BlogEdit from '../views/blog/BlogEdit.vue'
+import BlogDetail from '../views/blog/BlogDetail.vue'
+import NotFound from '../views/error-page/404.vue'
+import Page401 from '../views/error-page/401.vue'
 import LogQuery from '../views/log/logView.vue'
+import Profile from '../views/account/'
 
 Vue.use(VueRouter)
 
@@ -61,6 +62,14 @@ const routes = [
     path: '/log/query',
     name: 'LogQuery',
     component: LogQuery,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/account',
+    name: 'Profile',
+    component: Profile,
     meta: {
       requireAuth: true
     }

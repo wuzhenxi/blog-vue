@@ -14,7 +14,7 @@
         </div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">请检查您输入的网址是否正确，请点击以下按钮返回主页.</div>
-        <router-link to="/" class="bullshit__return-home">
+        <router-link to="/">
               返回首页
         </router-link>
       </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Footer from "../components/Footer";
+import Footer from "../../components/Footer";
 
 
 export default {

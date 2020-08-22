@@ -12,6 +12,7 @@ import 'mavon-editor/dist/css/index.css'
 
 import "./axios"
 import "./permission"
+import "./assets/icons"
 
 Vue.use(Element)
 Vue.use(mavonEditor)

@@ -11,7 +11,7 @@
             <span><el-link type="blue" href="/">主页</el-link></span>
           </el-dropdown-item>
           <el-dropdown-item v-show="hasLogin">
-            <span><el-link type="warning" href="/user/info">个人中心</el-link></span>
+            <span><el-link type="warning" href="/account">个人中心</el-link></span>
           </el-dropdown-item>
           <el-dropdown-item v-show="hasLogin">
             <span><el-link type="success" href="/blog/add">发表博客</el-link></span>
@@ -57,9 +57,12 @@
     created() {
       if(this.$store.getters.getUser) {
         this.user.username = this.$store.getters.getUser.username
-        // this.user.avatar = this.$store.getters.getUser.avatar
-        this.user.avatar = require('@/assets/person-login.gif');
         this.hasLogin = true
+        if(this.$store.getters.getUser.avatar) {
+          this.user.avatar = this.$store.getters.getUser.avatar
+        } else {
+          this.user.avatar = require('@/assets/person-login.gif');
+        }
       }
     }
   }

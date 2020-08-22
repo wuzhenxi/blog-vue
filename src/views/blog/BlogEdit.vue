@@ -83,8 +83,8 @@
 </template>
 
 <script>
-  import Header from "../components/Header";
-  import Footer from "../components/Footer";
+  import Header from "../../components/Header";
+  import Footer from "../../components/Footer";
   import BackToTop from '@/components/BackToTop';
   import {mavonEditor} from 'mavon-editor';
   export default {

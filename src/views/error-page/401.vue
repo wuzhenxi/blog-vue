@@ -42,7 +42,7 @@
 
 <script>
 import errGif from '@/assets/401_images/401.gif'
-import Footer from "../components/Footer";
+import Footer from "../../components/Footer";
 
 export default {
   name: 'Page401',
