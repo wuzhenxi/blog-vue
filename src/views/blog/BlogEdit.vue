@@ -198,7 +198,6 @@
         })
       },
       uploadAttachment(params) {
-        debugger
         const _this = this
         let formdata = new FormData()
         formdata.append('file', params.file)
@@ -224,6 +223,13 @@
                 type: 'warning'
               });
           }
+        }).catch(err => {
+          this.$notify({
+            title: 'error',
+            message: '上传失败',
+            type: 'error'
+          });
+          this.fileList = [];
         })
       },
       submitForm(formName) {
@@ -263,7 +269,11 @@
           _this.ruleForm.description = blog.description
           _this.ruleForm.content = blog.content
           _this.ruleForm.attachment = JSON.parse(blog.attachment)
-          _this.fileList = JSON.parse(blog.attachment)
+          debugger
+          let attachments = JSON.parse(blog.attachment);
+          for(var attachment in attachments) {
+            _this.fileList.push(attachment)
+          }
         })
       }
 
