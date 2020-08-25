@@ -23,6 +23,10 @@
                   layout="total, sizes, prev, pager, next, jumper"
                   :total="total">
     </el-pagination>
+
+    <el-tooltip placement="top" content="回顶部">
+      <back-to-top :custom-style="myBackToTopStyle" :visibility-height="300" :back-position="50" transition-name="fade" />
+    </el-tooltip>
   </div>
 </template>
 

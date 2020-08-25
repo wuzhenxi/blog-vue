@@ -15,8 +15,8 @@
           <div style="text-align: left;">
             <el-switch
               v-model="ruleForm.status"
-              active-value="1"
-              inactive-value="0"
+              active-value=1
+              inactive-value=0
               active-text="是"
               inactive-text="否">
             </el-switch>
@@ -27,8 +27,8 @@
           <div style="text-align: left;">
             <el-switch
               v-model="ruleForm.isTop"
-              active-value="1"
-              inactive-value="0"
+              active-value=1
+              inactive-value=0
               active-text="是"
               inactive-text="否">
             </el-switch>
@@ -79,7 +79,7 @@
 
     </div>
 
-    <el-tooltip placement="top" content="top">
+    <el-tooltip placement="top" content="回顶部">
       <back-to-top :custom-style="myBackToTopStyle" :visibility-height="300" :back-position="50" transition-name="fade" />
     </el-tooltip>
 
@@ -113,8 +113,8 @@
           description: '',
           content: '',
           userId: this.$store.getters.getUser.id,
-          isTop: '0',
-          status: '1',
+          isTop: 0,
+          status: 1,
           attachment: ''
         },
         rules: {

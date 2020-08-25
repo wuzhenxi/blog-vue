@@ -34,7 +34,7 @@
 
     </div>
 
-    <el-tooltip placement="top" content="top">
+    <el-tooltip placement="top" content="回顶部">
       <back-to-top :custom-style="myBackToTopStyle" :visibility-height="300" :back-position="50" transition-name="fade" />
     </el-tooltip>
 
@@ -93,7 +93,7 @@
         var result = md.render(blog.content)
 
         _this.blog.content = result
-        _this.ownBlog = (blog.userId === _this.$store.getters.getUser.id)
+        _this.ownBlog = (blog.userId === _this.$store.getters.getUser?_this.$store.getters.getUser.id:'')
 
       })
     },

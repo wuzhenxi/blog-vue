@@ -57,24 +57,24 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const _this = this
-            this.$axios.post('/login', this.ruleForm).then(res => {
-              console.log(res.data)
-              const jwt = res.headers['authorization']
-              const userInfo = res.data.data
+            _this.$axios.post('/login', _this.ruleForm).then(res => {
+              if(res) {
+                const jwt = res.headers['authorization']
+                const userInfo = res.data.data
 
-              // 把数据共享出去
-              _this.$store.commit("SET_TOKEN", jwt)
-              _this.$store.commit("SET_USERINFO", userInfo)
+                // 把数据共享出去
+                _this.$store.commit("SET_TOKEN", jwt)
+                _this.$store.commit("SET_USERINFO", userInfo)
 
 
-              _this.$notify({
-                title: '登录成功',
-                message: '欢迎' + userInfo.username + '回家',
-                type: 'success'
-              });
+                _this.$notify({
+                  title: '登录成功',
+                  message: '欢迎' + userInfo.username + '回家',
+                  type: 'success'
+                });
 
-              _this.$router.push("/blogs")
-
+                _this.$router.push("/blogs")
+              } 
             })
 
           } else {
