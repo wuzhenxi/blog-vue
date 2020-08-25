@@ -68,7 +68,7 @@
           title: "",
           content: "",
           userId: "",
-          attachment: ""
+          attachment: []
         },
         ownBlog: false,
         visible: false
@@ -82,8 +82,10 @@
         const blog = res.data.data
         _this.blog.id = blog.id
         _this.blog.title = blog.title
-        _this.blog.attachment = JSON.parse(blog.attachment)
         _this.blog.userId = blog.userId
+        if(blog.attachment) {
+          _this.blog.attachment = JSON.parse(blog.attachment)
+        }
 
         var MardownIt = require("markdown-it")
         var md = new MardownIt()

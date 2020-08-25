@@ -5,6 +5,9 @@
     <div class="m-content">
 
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item v-show="false" label="博客id" prop="id">
+          <el-input v-model="ruleForm.id"></el-input>
+        </el-form-item>
         <el-form-item v-show="false" label="所属者" prop="userId">
           <el-input v-model="ruleForm.userId"></el-input>
         </el-form-item>
@@ -49,20 +52,22 @@
           />
         </el-form-item>
 
-        <el-form-item label="附件" prop="attachment">
+        <el-form-item label="附件" prop="attachment" class="upload-demo">
           <el-upload
-            class="upload-file"
-            multiple
             :v-model="ruleForm.attachment"
-            :before-remove="beforeRemove"
+            :headers="headers"
+            :action="upload_url"
+            :on-preview="handlePreview"
             :on-remove="removeFile"
+            :before-remove="beforeRemove"
+            :on-success="uploadSuccess"
+            :on-error="uploadError"
+            multiple
             :limit="10"
             :on-exceed="handleExceed"
-            :action="upload_url"
-            :http-request="uploadAttachment"
             :file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能选10个文件，且不超过100MB</div>
+            <div slot="tip" class="el-upload__tip">只能选10个文件，且不超过500MB</div>
           </el-upload>
         </el-form-item>
 
@@ -91,6 +96,7 @@
     name: "BlogEdit.vue",
     components: {Header, Footer, mavonEditor, BackToTop},
     data() {
+      let uploadReq;
       return {
         myBackToTopStyle: {
           right: '50px',
@@ -123,8 +129,13 @@
             { required: true, message: '请输入内容', trigger: 'blur' }
           ]
         },
-        upload_url: '/blog/upload',
-        fileList: []
+        headers: {
+          Authorization: this.$store.getters.getToken  //从cookie里获取token，并赋值  Authorization ，而不是token
+        },
+        upload_url: this.$axios.defaults.baseURL + '/blog/upload',
+        fileList: [],
+        showProcess: false,
+        processLength: 0
       };
     },
     methods: {
@@ -148,13 +159,16 @@
                 type: 'warning'
               });
           }
-        })
+        });
       },
       handleEditorImgDel (pos) {
           delete this.imgFile[pos]
       },
       handleExceed(files, fileList) {
         this.$notify.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      handlePreview(file) {
+        console.log(file);
       },
       beforeRemove(file, fileList) {
         if(this.ruleForm.userId === this.$store.getters.getUser.id) {
@@ -173,70 +187,80 @@
       },
       removeFile(file,fileList) {
         const _this = this
-        let userFileDTO = {
-          userId: this.ruleForm.userId,
-          fileUrl: file.url,
-          fileName: file.name
-        }
-        this.$axios.post('/file/delete/', userFileDTO).then(res => {
-          if (res.data.code === 200) {
-            if(res.data.data) {
-              this.$notify({
+        if(file.status === 'success') {
+          // 删除已上传的文件 或 编辑删除文件(无response)
+          let userFileDTO = {
+            userId: _this.ruleForm.userId,
+            fileUrl: file.response?file.response.data.fileUrl:file.url,
+            fileName: file.name
+          }
+          _this.$axios.post('/file/delete/', userFileDTO).then(res => {
+            if (res.data.code === 200) {
+              _this.$notify({
                 title: 'success',
                 message: `成功删除 ${ file.name }`,
                 type: 'success'
               });
             } else {
-              this.$notify({
+              _this.$notify({
                 title: '警告',
                 message: '文件不存在或已被删除',
                 type: 'warning'
               });
             }
-            _this.fileList.splice(_this.fileList.indexOf(file),1)
-          } 
-        })
-      },
-      uploadAttachment(params) {
-        const _this = this
-        let formdata = new FormData()
-        formdata.append('file', params.file)
-        // 本例子主要要在请求时添加特定属性，所以要用自己方法覆盖默认的action
-        this.$axios.post(_this.upload_url, formdata).then(res => {
-          if (res.data.code === 200) {
-              this.$notify({
-                title: 'success',
-                message: `成功上传 ${ params.file.name }`,
-                type: 'success'
-              });
-              let resUrl = res.data.data.fileUrl;
-              let fileInfo = {
-                name: params.file.name,
-                url: resUrl
-              };
-              this.fileList.push(fileInfo);
-              this.ruleForm.attachment = JSON.stringify(this.fileList);
-          } else {
-              this.$notify({
-                title: '警告',
-                message: res.data.msg,
-                type: 'warning'
-              });
-          }
-        }).catch(err => {
-          this.$notify({
-            title: 'error',
-            message: '上传失败',
-            type: 'error'
+            _this.fileList.splice(file,1);
+            var attachmentData = {};
+            attachmentData.name = file.name;
+            attachmentData.url = file.url;
+            var attachmentTmp = JSON.parse(_this.ruleForm.attachment).splice(attachmentData,1)
+            _this.ruleForm.attachment = JSON.stringify(attachmentTmp);
+          })
+        } else if(file.status === 'uploading') {
+          // 取消正在上传中的文件
+          _this.$notify({
+            title: 'info',
+            message: `已取消上传文件 ${ file.name }`,
+            type: 'info'
           });
-          this.fileList = [];
-        })
+        }
       },
+      uploadSuccess(response,file,fileList) {
+        if(response.code === 200) {
+          this.$notify({
+            title: 'success',
+            message: `成功上传 ${ file.name }`,
+            type: 'success'
+          });
+          
+          let fileInfo = {
+            name: file.name,
+            url: response.data.fileUrl
+          };
+          let atts = []
+          atts.push(fileInfo)
+          this.ruleForm.attachment = JSON.stringify(atts);
+        } else {
+            this.$notify({
+              title: '警告',
+              message: response.data.msg,
+              type: 'warning'
+            });
+        }
+      },
+
+      uploadError(err,file,fileList) {
+        this.$notify({
+          title: 'error',
+          message: '上传失败',
+          type: 'error'
+        });
+      },
+
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+        const _this = this
+        _this.$refs[formName].validate((valid) => {
           if (valid) {
-            const _this = this;
-            this.$axios.post('/blog/edit', this.ruleForm).then(res => {
+            _this.$axios.post('/blog/edit', _this.ruleForm).then(res => {
               if(res.data.data) {
                 _this.$notify({
                   title: 'success',
@@ -268,11 +292,15 @@
           _this.ruleForm.title = blog.title
           _this.ruleForm.description = blog.description
           _this.ruleForm.content = blog.content
-          _this.ruleForm.attachment = JSON.parse(blog.attachment)
-          debugger
-          let attachments = JSON.parse(blog.attachment);
-          for(var attachment in attachments) {
-            _this.fileList.push(attachment)
+          if(blog.attachment) {
+            _this.ruleForm.attachment = blog.attachment
+            let attachments = JSON.parse(blog.attachment);
+            attachments.forEach(function(value,key,arr){
+              var attachmentData = {};
+              attachmentData.name = value.name;
+              attachmentData.url = value.url;
+              _this.fileList.push(attachmentData)
+            })
           }
         })
       }
@@ -286,7 +314,7 @@
     text-align: center;
   }
 
-  .upload-file {
+  .upload-demo {
     text-align: left;
     width: 45%;
   }
