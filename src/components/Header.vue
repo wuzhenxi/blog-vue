@@ -58,6 +58,7 @@
       if(this.$store.getters.getUser) {
         this.user.username = this.$store.getters.getUser.username
         this.hasLogin = true
+        this.logView = this.$store.getters.getUser.logView
         if(this.$store.getters.getUser.avatar) {
           this.user.avatar = this.$store.getters.getUser.avatar
         } else {

@@ -291,6 +291,8 @@
           _this.ruleForm.userId = blog.userId
           _this.ruleForm.title = blog.title
           _this.ruleForm.description = blog.description
+          _this.ruleForm.isTop = blog.isTop
+          _this.ruleForm.status = blog.status
           _this.ruleForm.content = blog.content
           if(blog.attachment) {
             _this.ruleForm.attachment = blog.attachment
