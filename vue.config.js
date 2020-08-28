@@ -2,8 +2,10 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const port = process.env.port || process.env.npm_config_port || 8088 
 
 module.exports = {
+
     /** 区分打包环境与开发环境
      * process.env.NODE_ENV==='production'  (打包环境)
      * process.env.NODE_ENV==='development' (开发环境)
@@ -63,13 +65,13 @@ module.exports = {
   
     pwa: {}, // configure webpack-dev-server behavior
     devServer: {
-      open: process.platform === "darwin",
-      disableHostCheck: false,
-      host: "0.0.0.0",
+      open: true,
+      // disableHostCheck: false,
+      // host: "0.0.0.0",
       port: 8088,
-      https: false,
-      hotOnly: false, // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
-      proxy: null // string | Object
+      // https: false,
+      // hotOnly: false, // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
+      // proxy: null // string | Object
       // before: app => {}
     }, // 第三方插件配置
   
