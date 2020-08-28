@@ -212,7 +212,9 @@
             var attachmentData = {};
             attachmentData.name = file.name;
             attachmentData.url = file.url;
-            var attachmentTmp = JSON.parse(_this.ruleForm.attachment).splice(attachmentData,1)
+            debugger
+            var attachmentTmp = JSON.parse(_this.ruleForm.attachment)
+            attachmentTmp.splice(attachmentData,1)
             _this.ruleForm.attachment = JSON.stringify(attachmentTmp);
           })
         } else if(file.status === 'uploading') {
@@ -287,13 +289,14 @@
       if(blogId) {
         this.$axios.get('/blog/' + blogId).then(res => {
           const blog = res.data.data
-          _this.ruleForm.id = blog.id
-          _this.ruleForm.userId = blog.userId
-          _this.ruleForm.title = blog.title
-          _this.ruleForm.description = blog.description
-          _this.ruleForm.isTop = blog.isTop
-          _this.ruleForm.status = blog.status
-          _this.ruleForm.content = blog.content
+          // _this.ruleForm.id = blog.id
+          // _this.ruleForm.userId = blog.userId
+          // _this.ruleForm.title = blog.title
+          // _this.ruleForm.description = blog.description
+          // _this.ruleForm.isTop = blog.isTop
+          // _this.ruleForm.status = blog.status
+          // _this.ruleForm.content = blog.content
+          _this.ruleForm = blog
           if(blog.attachment) {
             _this.ruleForm.attachment = blog.attachment
             let attachments = JSON.parse(blog.attachment);
