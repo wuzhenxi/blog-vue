@@ -88,6 +88,8 @@ export default {
       this.$refs[user].validate((valid) => {
         if (valid) {
           const _this = this
+          debugger
+          _this.user.password = _this.$getRsaEncrypt(_this.user.password)
           this.$axios.post('/user/update', _this.user).then(res => {
             if (res.data.data) {
               _this.$notify({

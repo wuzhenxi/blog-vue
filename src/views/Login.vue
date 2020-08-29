@@ -13,9 +13,17 @@
           <el-form-item label="用户名" prop="username">
             <el-input v-model="ruleForm.username"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="ruleForm.password"></el-input>
+          <el-form-item v-if="visible" label="密码" prop="password">
+            <el-input type="password" v-model.trim="ruleForm.password" placeholder="请输入密码">
+              <i slot="suffix" title="显示密码" class="el-icon-sunny" @click="changePass('show')" style="cursor:pointer;" />
+            </el-input>
           </el-form-item>
+          <el-form-item v-else label="密码" prop="password">
+            <el-input type="text" v-model.trim="ruleForm.password" placeholder="请输入密码">
+              <i slot="suffix" title="隐藏密码" class="el-icon-moon" @click="changePass('hide')" style="cursor:pointer;" />
+            </el-input>
+          </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -37,6 +45,7 @@
     components: {Footer},
     data() {
       return {
+        visible: true,
         ruleForm: {
           username: '',
           password: ''
@@ -53,10 +62,15 @@
       };
     },
     methods: {
+      changePass(value) {
+        this.visible = !(value === 'show');
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const _this = this
+            debugger
+            _this.ruleForm.password = _this.$getRsaEncrypt(_this.ruleForm.password)
             _this.$axios.post('/login', _this.ruleForm).then(res => {
               if(res) {
                 const jwt = res.headers['authorization']
