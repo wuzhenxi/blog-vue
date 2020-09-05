@@ -48,9 +48,8 @@
         const _this = this
           _this.$axios.get("/logout").then(res => {
           _this.$store.commit("REMOVE_INFO")
-          _this.$router.push("/login")
           sessionStorage.removeItem("blog_token")
-
+          _this.$router.go(0)
         })
       }
     },

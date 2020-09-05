@@ -69,7 +69,6 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const _this = this
-            debugger
             _this.ruleForm.password = _this.$getRsaEncrypt(_this.ruleForm.password)
             _this.$axios.post('/login', _this.ruleForm).then(res => {
               if(res) {
