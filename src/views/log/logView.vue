@@ -149,7 +149,7 @@
           _this.log.endDateTime = this.timeFormate(_this.pickDateTime[1])
         } else {
           var now = new Date()
-          _this.log.startDateTime = this.timeFormate(new Date(now - 30*24*60*60*1000))
+          _this.log.startDateTime = this.timeFormate(new Date(now - 60*24*60*60*1000))
           _this.log.endDateTime = this.timeFormate(now)
         }
         _this.log.currentPage = currentPage
@@ -167,7 +167,7 @@
           _this.log.endDateTime = this.timeFormate(_this.pickDateTime[1])
         } else {
           var now = new Date()
-          _this.log.startDateTime = this.timeFormate(new Date(now - 30*24*60*60*1000))
+          _this.log.startDateTime = this.timeFormate(new Date(now - 60*24*60*60*1000))
           _this.log.endDateTime = this.timeFormate(now)
         }
         _this.log.pageSize = pageSize
