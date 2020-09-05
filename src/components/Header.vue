@@ -48,6 +48,7 @@
         const _this = this
           _this.$axios.get("/logout").then(res => {
           _this.$store.commit("REMOVE_INFO")
+          sessionStorage.removeItem("blog_user")
           sessionStorage.removeItem("blog_token")
           _this.$router.go(0)
         })
