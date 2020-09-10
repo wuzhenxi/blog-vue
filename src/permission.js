@@ -12,7 +12,6 @@ router.beforeEach((to, from, next) => {
       if (to.path === '/login') {
         next({ path: '/login' })
       } else {
-        debugger
         // 查看系统日志
         if(to.path.indexOf('/log/query') != -1 && userInfo) {
           if(userInfo.logView) {

@@ -212,7 +212,6 @@
             var attachmentData = {};
             attachmentData.name = file.name;
             attachmentData.url = file.url;
-            debugger
             var attachmentTmp = JSON.parse(_this.ruleForm.attachment)
             attachmentTmp.splice(attachmentData,1)
             _this.ruleForm.attachment = JSON.stringify(attachmentTmp);
