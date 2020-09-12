@@ -2,6 +2,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const port = process.env.port || process.env.npm_config_port || 8088 
 
 module.exports = {
@@ -49,6 +50,12 @@ module.exports = {
             test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
             threshold: 10240,
             minRatio: 0.8
+          }),
+          new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'index.html',
+            inject: true,
+            favicon: './favicon.ico'
           })
         ]
     }, // CSS 相关选项
@@ -68,7 +75,7 @@ module.exports = {
       open: true,
       // disableHostCheck: false,
       // host: "0.0.0.0",
-      port: 8088,
+      port: port,
       // https: false,
       // hotOnly: false, // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
       // proxy: null // string | Object
