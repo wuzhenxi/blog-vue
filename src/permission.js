@@ -1,6 +1,6 @@
 import router from "./router";
 
-const whiteList = ['/blogs', '/login', '/401', '/404'] 
+const whiteList = ['/blogs', '/login', '/401', '/404', 'favicon.ico'] 
 
 // 路由判断登录 根据路由配置文件的参数
 router.beforeEach((to, from, next) => {
