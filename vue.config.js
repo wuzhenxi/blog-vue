@@ -2,7 +2,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
 const port = process.env.port || process.env.npm_config_port || 8088 
 
 module.exports = {
@@ -50,12 +50,6 @@ module.exports = {
             test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
             threshold: 10240,
             minRatio: 0.8
-          }),
-          new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'index.html',
-            inject: true,
-            favicon: './favicon.ico'
           })
         ]
     }, // CSS 相关选项
@@ -84,5 +78,14 @@ module.exports = {
   
     pluginOptions: {
       // ...
+      pwa: {
+        iconPaths: {
+          favicon32: './favicon.ico',
+          favicon16: './favicon.ico',
+          appleTouchIcon: './favicon.ico',
+          maskIcon: './favicon.ico',
+          msTileImage: './favicon.ico'
+        }
+      }
     }
   };
