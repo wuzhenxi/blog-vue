@@ -2,22 +2,22 @@
 
 ## Project setup
 ```
-npm install sass
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+```
+```
+cnpm install -g sass
 ```
 
 ```
-npm install
+cnpm install --save jsencrypt
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run dev
+cnpm run dev
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+cnpm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -13,7 +13,7 @@ import 'mavon-editor/dist/css/index.css'
 import "./axios"
 import "./permission"
 import "./assets/icons"
-import { JSEncrypt } from 'jsencrypt'
+import { JSEncrypt } from 'jsencrypt/bin/jsencrypt'
 
 Vue.use(Element)
 Vue.use(mavonEditor)
