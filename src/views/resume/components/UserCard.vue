@@ -10,7 +10,10 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>毕业学校</span></div>
+        <div class="user-bio-section-header">
+          <!-- <svg-icon icon-class="education" /><span>毕业学校</span> -->
+          <i class="el-icon-school"> 毕业学校</i>
+        </div>
         <div class="user-bio-section-body">
           <div class="text-muted">
             武汉理工大学华夏学院
@@ -19,23 +22,22 @@
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>专业技能</span></div>
+        <div class="user-bio-section-header">
+          <!-- <svg-icon icon-class="skill" /><span>专业技能</span> -->
+          <i class="el-icon-trophy"> 专业技能</i>
+        </div>
         <div class="user-bio-section-body">
           <div class="progress-item">
-            <span>Vue</span>
-            <el-progress :percentage="70" />
-          </div>
-          <div class="progress-item">
-            <span>JavaScript</span>
-            <el-progress :percentage="18" />
-          </div>
-          <div class="progress-item">
-            <span>Css</span>
-            <el-progress :percentage="12" />
-          </div>
-          <div class="progress-item">
-            <span>ESLint</span>
+            <span>Java</span>
             <el-progress :percentage="100" status="success" />
+          </div>
+          <div class="progress-item">
+            <span>Vue</span>
+            <el-progress :percentage="30" />
+          </div>
+          <div class="progress-item">
+            <span>Linux</span>
+            <el-progress :percentage="20" />
           </div>
         </div>
       </div>
@@ -45,10 +47,10 @@
 
 <script>
 import PanThumb from '@/components/PanThumb'
-import SvgIcon from '@/components/SvgIcon/'
+// import SvgIcon from '@/components/SvgIcon/'
 
 export default {
-  components: { PanThumb, SvgIcon },
+  components: { PanThumb },
   props: {
     user: {
       type: Object,

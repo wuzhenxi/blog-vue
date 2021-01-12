@@ -19,9 +19,9 @@
             </el-tabs>
           </el-card>
         </el-col>
-
       </el-row>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -33,7 +33,7 @@ import Footer from "../../components/Footer";
 
 export default {
   name: 'Resume.vue',
-  components: { UserCard, Activity, Timeline },
+  components: { UserCard, Activity, Timeline, Footer },
   data() {
     return {
       user: {

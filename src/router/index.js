@@ -21,42 +21,59 @@ const routes = [
   {
     path: '/blogs',
     name: 'Blogs',
-    component: Blogs
+    component: Blogs,
+    meta: {
+      title: '博客预览'
+    }
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      title: '用户登录'
+    }
   },
   {
     path: '/401',
     name: 'Page401',
-    component: Page401
+    component: Page401,
+    meta: {
+      title: '无权限'
+    }
   },
   {
     path: '/404',
     name: 'NotFound',
-    component: NotFound
+    component: NotFound,
+    meta: {
+      title: '404'
+    }
   },
   {
     path: '/blog/add',
     name: 'BlogAdd',
     component: BlogEdit,
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      title: '新增博客'
     }
   },
   {
     path: '/blog/:blogId',
     name: 'BlogDetail',
-    component: BlogDetail
+    component: BlogDetail,
+    meta: {
+      title: '博客详情'
+    }
   },
   {
     path: '/blog/:blogId/edit',
     name: 'BlogEdit',
     component: BlogEdit,
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      title: '编辑博客'
     }
   },
   {
@@ -64,7 +81,8 @@ const routes = [
     name: 'LogQuery',
     component: LogQuery,
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      title: '日志查看'
     }
   },
   {
@@ -72,13 +90,17 @@ const routes = [
     name: 'Profile',
     component: Profile,
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      title: '个人中心'
     }
   },
   {
     path: '/resume',
     name: 'Resume',
-    component: Resume
+    component: Resume,
+    meta: {
+      title: '个人简历'
+    }
   }
 ]
 
@@ -86,6 +108,14 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
 })
 
 export default router

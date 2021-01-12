@@ -19,9 +19,9 @@
             </el-tabs>
           </el-card>
         </el-col>
-
       </el-row>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ import Footer from "../../components/Footer";
 
 export default {
   name: 'Profile.vue',
-  components: { UserCard, Timeline, Account },
+  components: { UserCard, Timeline, Account, Footer },
   data() {
     return {
       user: {

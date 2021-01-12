@@ -29,8 +29,32 @@ module.exports = {
     ], // 是否为生产环境构建生成sourceMap?
   
     productionSourceMap: false, // 调整内部的webpack配置. // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-    chainWebpack: () => {},
+    chainWebpack(config) {
+      // set svg-sprite-loader
+      config.module
+        .rule('svg')
+        .exclude.add(resolve('src/icons'))
+        .end()
+      config.module
+        .rule('icons')
+        .test(/\.svg$/)
+        .include.add(resolve('src/icons'))
+        .end()
+        .use('svg-sprite-loader')
+        .loader('svg-sprite-loader')
+        .options({
+          symbolId: 'icon-[name]'
+        })
+        .end()
+    },
     configureWebpack: {
+        // provide the app's title in webpack's name field, so that
+        // it can be accessed in index.html to inject the correct title.
+        resolve: {
+          alias: {
+            '@': resolve('src')
+          }
+        },
         plugins: [
           // Ignore all locale files of moment.js
           new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
