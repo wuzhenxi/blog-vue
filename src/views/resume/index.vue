@@ -10,11 +10,11 @@
         <el-col :span="18" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane label="博客" name="timeline">
-                <timeline />
+              <el-tab-pane label="技能优势" name="activity">
+                <activity />
               </el-tab-pane>
-              <el-tab-pane label="账号" name="account">
-                <account :user="user" />
+              <el-tab-pane label="项目经验" name="timeline">
+                <timeline />
               </el-tab-pane>
             </el-tabs>
           </el-card>
@@ -26,32 +26,22 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex' // 暂且用不到
 import UserCard from './components/UserCard'
+import Activity from './components/Activity'
 import Timeline from './components/Timeline'
-import Account from './components/Account'
 import Footer from "../../components/Footer";
 
 export default {
-  name: 'Profile.vue',
-  components: { UserCard, Timeline, Account },
+  name: 'Resume.vue',
+  components: { UserCard, Activity, Timeline },
   data() {
     return {
       user: {
-        id: "",
-        username: "",
-        password: "",
-        email: ""
+        avatar: require('@/assets/person-login.gif')
       },
-      activeTab: 'timeline'
+      activeTab: 'activity'
     }
   },
-  // computed: {
-  //   ...mapGetters([
-  //     'name',
-  //     'avatar'
-  //   ])
-  // },
   created() {
     this.getUser()
   },

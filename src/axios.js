@@ -5,7 +5,7 @@ import store from './store'
 
 // axios.defaults.baseURL = "https://localhost:8081"
 // axios.defaults.baseURL = "https://www.wuzhenxicloud.com:8081"
-axios.defaults.baseURL = process.env.NODE_ENV==='production'?"https://www.wuzhenxicloud.com/api":'http://localhost:8081',
+axios.defaults.baseURL = process.env.NODE_ENV==='production'?"https://www.wuzhenxicloud.com/api":'http://localhost:8083',
 
 // 前置拦截
 axios.interceptors.request.use(config => {

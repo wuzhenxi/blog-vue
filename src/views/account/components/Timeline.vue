@@ -34,6 +34,7 @@
 import BackToTop from '@/components/BackToTop';
 
 export default {
+  components: {BackToTop},
   data() {
     return {
       myBackToTopStyle: {

@@ -8,6 +8,7 @@ import NotFound from '../views/error-page/404.vue'
 import Page401 from '../views/error-page/401.vue'
 import LogQuery from '../views/log/logView.vue'
 import Profile from '../views/account/'
+import Resume from '../views/resume/'
 
 Vue.use(VueRouter)
 
@@ -73,6 +74,11 @@ const routes = [
     meta: {
       requireAuth: true
     }
+  },
+  {
+    path: '/resume',
+    name: 'Resume',
+    component: Resume
   }
 ]
 
