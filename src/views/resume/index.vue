@@ -13,6 +13,9 @@
               <el-tab-pane label="技能优势" name="activity">
                 <activity />
               </el-tab-pane>
+              <el-tab-pane label="工作经验" name="worker">
+                <worker />
+              </el-tab-pane>
               <el-tab-pane label="项目经验" name="timeline">
                 <timeline />
               </el-tab-pane>
@@ -29,11 +32,12 @@
 import UserCard from './components/UserCard'
 import Activity from './components/Activity'
 import Timeline from './components/Timeline'
+import Worker from './components/Worker'
 import Footer from "../../components/Footer";
 
 export default {
   name: 'Resume.vue',
-  components: { UserCard, Activity, Timeline, Footer },
+  components: { UserCard, Activity, Timeline, Footer, Worker },
   data() {
     return {
       user: {

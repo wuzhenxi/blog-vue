@@ -33,7 +33,7 @@
           </div>
           <div class="progress-item">
             <span>Vue</span>
-            <el-progress :percentage="30" />
+            <el-progress :percentage="20" />
           </div>
           <div class="progress-item">
             <span>Linux</span>
