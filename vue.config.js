@@ -68,13 +68,19 @@ module.exports = {
             sourceMap: false,
             parallel: true
           }),
-          // 配置compression-webpack-plugin压缩
-          new CompressionWebpackPlugin({
-            algorithm: 'gzip',
-            test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
-            threshold: 10240,
-            minRatio: 0.8
-          })
+          new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+            // 下面是下载的插件的配置
+            new CompressionWebpackPlugin({
+                algorithm: 'gzip',
+                test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+                threshold: 10240,
+                minRatio: 0.8
+            }),
+            new webpack.optimize.LimitChunkCountPlugin({
+                maxChunks: 5,
+                minChunkSize: 100
+            })
         ]
     }, // CSS 相关选项
     css: {
